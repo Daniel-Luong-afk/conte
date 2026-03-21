@@ -88,6 +88,8 @@ importers:
         specifier: ^8.50.0
         version: 8.50.0(eslint@9.39.1)(typescript@5.9.2)
 
+  packages/types: {}
+
   packages/typescript-config: {}
 
 packages:
