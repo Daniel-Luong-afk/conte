@@ -1,0 +1,20 @@
+{
+  "name": "@conte/api",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "5",
+    "prisma": "5"
+  },
+  "devDependencies": {
+    "@conte/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.9.3"
+  }
+}
