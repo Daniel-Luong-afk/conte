@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(cuid())
+  email            String            @unique
+  username         String            @unique
+  clerk_id         String            @unique
+  created_at       DateTime          @default(now())
+  reading_progress ReadingProgress[]
+  bookmarks        Bookmark[]
+}
+
+model Novel {
+  id               String            @id @default(cuid())
+  title_original   String
+  title_english    String?
+  description      String?
+  language         Language
+  status           NovelStatus       @default(ONGOING)
+  cover_url        String?
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+  sources          NovelSource[]
+  chapters         Chapter[]
+  bookmarks        Bookmark[]
+  glossary         GlossaryTerm[]
+  reading_progress ReadingProgress[]
+}
+
+model NovelSource {
+  id           String      @id @default(cuid())
+  novel        Novel       @relation(fields: [novel_id], references: [id])
+  novel_id     String
+  site_name    String
+  source_url   String      @unique
+  last_scraped DateTime?
+  is_active    Boolean     @default(true)
+  chapters     Chapter[]
+  scrape_jobs  ScrapeJob[]
+}
+
+model Chapter {
+  id                   String            @id @default(cuid())
+  novel                Novel             @relation(fields: [novel_id], references: [id])
+  novel_id             String
+  source               NovelSource       @relation(fields: [source_id], references: [id])
+  source_id            String
+  chapter_number       Int
+  title_original       String?
+  title_translated     String?
+  content_raw          String?
+  content_translated   String?
+  raw_content_s3_path  String?
+  translation_status   TranslationStatus @default(PENDING)
+  translation_cost     Float?
+  published_at         DateTime?
+  scraped_at           DateTime?
+  reading_progress     ReadingProgress[]
+
+  @@unique([novel_id, chapter_number])
+  @@index([novel_id])
+  @@index([source_id])
+}
+
+model ReadingProgress {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  novel      Novel    @relation(fields: [novel_id], references: [id])
+  novel_id   String
+  chapter    Chapter  @relation(fields: [chapter_id], references: [id])
+  chapter_id String
+  updated_at DateTime @updatedAt
+
+  @@unique([user_id, novel_id])
+}
+
+model Bookmark {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  novel      Novel    @relation(fields: [novel_id], references: [id])
+  novel_id   String
+  created_at DateTime @default(now())
+
+  @@unique([user_id, novel_id])
+}
+
+model GlossaryTerm {
+  id              String  @id @default(cuid())
+  novel           Novel   @relation(fields: [novel_id], references: [id])
+  novel_id        String
+  term_original   String
+  term_translated String
+  notes           String?
+
+  @@unique([novel_id, term_original])
+}
+
+model ScrapeJob {
+  id           String      @id @default(cuid())
+  source       NovelSource @relation(fields: [source_id], references: [id])
+  source_id    String
+  status       JobStatus   @default(PENDING)
+  scheduled_at DateTime    @default(now())
+  completed_at DateTime?
+  error_msg    String?
+}
+
+enum Language {
+  JP
+  KR
+  CN
+}
+
+enum NovelStatus {
+  ONGOING
+  COMPLETED
+  HIATUS
+}
+
+enum TranslationStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  DONE
+  FAILED
+}
