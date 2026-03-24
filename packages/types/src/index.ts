@@ -1,3 +1,14 @@
+export type {
+  Novel,
+  Chapter,
+  User,
+  Bookmark,
+  GlossaryTerm,
+  NovelSource,
+  ReadingProgress,
+  ScrapeJob,
+} from "@prisma/client";
+
 // Shared response shape for all endpoints
 export interface PaginatedResponse<T> {
   data: T[];
