@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {
+    "@conte/api": "workspace:*"
   }
 }

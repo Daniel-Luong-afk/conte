@@ -9,6 +9,8 @@ export type {
   ScrapeJob,
 } from "@prisma/client";
 
+export type { AppRouter } from "@conte/api";
+
 // Shared response shape for all endpoints
 export interface PaginatedResponse<T> {
   data: T[];
