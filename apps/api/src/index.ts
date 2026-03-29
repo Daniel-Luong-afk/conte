@@ -4,6 +4,9 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import { errorHandler } from "./middleware/errorHandler";
 import { apiLimiter } from "./middleware/rateLimiter";
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { appRouter } from "./routers";
+import { createContext } from "./lib/context";
 
 dotenv.config();
 
@@ -22,6 +25,14 @@ app.use("/api", apiLimiter);
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
+
+app.use(
+  "/api/trpc",
+  createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  }),
+);
 
 // Error handler
 app.use(errorHandler);
