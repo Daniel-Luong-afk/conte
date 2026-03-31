@@ -7,8 +7,8 @@ A full-stack novel translation platform that focuses on Korean, Japanese and Chi
 - **Frontend:** Next.js, React, Typescript, Tailwind CSS
 - **Backend:** Node.js, Express, TypeScript, Prisma, PostgreSQL
 - **Auth:** Clerk
-- **API Layer"** tRPC (end-to-end type safety)
-- **Monorepo:** Turbo repo + pnpm workspaces
+- **API Layer:** tRPC (end-to-end type safety)
+- **Monorepo:** Turborepo + pnpm workspaces
 
 ## Getting Started
 
@@ -28,9 +28,9 @@ In active development!
 
 ## Roadmap
 
-- [o] Monorepo setup (Turborepo + pnpm)
-- [o] tRPC API layer
-- [x] Auth UI + JWT verification (Clerk) token forwarding in progress
+- [x] Monorepo setup (Turborepo + pnpm)
+- [x] tRPC API layer
+- [o] Auth UI + JWT verification (Clerk) token forwarding in progress
 - [ ] Python scraping engine
 - [ ] AI translation pipeline (DeepL + OpenAI)
 - [ ] Full reading UI
