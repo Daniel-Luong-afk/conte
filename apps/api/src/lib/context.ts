@@ -5,7 +5,6 @@ import { Context } from "./trpc";
 
 export function createContext({ req }: CreateExpressContextOptions): Context {
   const userId = req.auth?.userId ?? null;
-
   return {
     userId,
     prisma,

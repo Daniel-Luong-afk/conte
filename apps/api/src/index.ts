@@ -7,6 +7,7 @@ import { apiLimiter } from "./middleware/rateLimiter";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./routers";
 import { createContext } from "./lib/context";
+import { optionalAuth } from "./middleware/optionalAuth";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get("/health", (req, res) => {
 
 app.use(
   "/api/trpc",
+  optionalAuth,
   createExpressMiddleware({
     router: appRouter,
     createContext,
