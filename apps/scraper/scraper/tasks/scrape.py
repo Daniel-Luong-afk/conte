@@ -2,14 +2,22 @@ from scraper.celery_app import celery_app
 from scraper.parsers.syosetu import SyosetuParser
 from scraper.db import get_connection
 import uuid
+import httpx
+
+PARSERS: dict = {"syosetu": SyosetuParser}
 
 
-@celery_app.task
+@celery_app.task(
+    autoretry_for=(httpx.HTTPError,), max_retries=3, default_retry_delay=60
+)
 def scrape_chapter(
-    url: str, novel_id: str, chapter_number: int, source_id: str
+    url: str, novel_id: str, chapter_number: int, source_id: str, site_name: str
 ) -> None:
-    # TODO: Check for which site are we using
-    result = SyosetuParser().fetch_chapter(url)
+
+    parser_class = PARSERS.get(site_name)
+    if not parser_class:
+        raise ValueError(f"Site: {site_name} isn't supported")
+    result = parser_class().fetch_chapter(url)
 
     connection = get_connection()
     cursor = connection.cursor()
