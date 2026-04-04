@@ -30,7 +30,7 @@ In active development!
 
 - [x] Monorepo setup (Turborepo + pnpm)
 - [x] tRPC API layer
-- [o] Auth UI + JWT verification (Clerk) token forwarding in progress
+- [x] Auth UI + JWT verification (Clerk)
 - [ ] Python scraping engine
 - [ ] AI translation pipeline (DeepL + OpenAI)
 - [ ] Full reading UI
