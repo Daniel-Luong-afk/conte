@@ -12,7 +12,7 @@ PARSERS: dict = {"syosetu": SyosetuParser}
 )
 def scrape_chapter(
     url: str, novel_id: str, chapter_number: int, source_id: str, site_name: str
-) -> None:
+) -> dict:
 
     parser_class = PARSERS.get(site_name)
     if not parser_class:
