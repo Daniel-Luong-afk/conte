@@ -18,20 +18,24 @@ model User {
 }
 
 model Novel {
-  id               String            @id @default(cuid())
-  title_original   String
-  title_english    String?
-  description      String?
-  language         Language
-  status           NovelStatus       @default(ONGOING)
-  cover_url        String?
-  created_at       DateTime          @default(now())
-  updated_at       DateTime          @updatedAt
-  sources          NovelSource[]
-  chapters         Chapter[]
-  bookmarks        Bookmark[]
-  glossary         GlossaryTerm[]
-  reading_progress ReadingProgress[]
+  id                String            @id @default(cuid())
+  title_original    String
+  title_english     String?
+  description       String?
+  language          Language
+  status            NovelStatus       @default(ONGOING)
+  cover_url         String?
+  created_at        DateTime          @default(now())
+  updated_at        DateTime          @updatedAt
+  sources           NovelSource[]
+  chapters          Chapter[]
+  bookmarks         Bookmark[]
+  glossary          GlossaryTerm[]
+  reading_progress  ReadingProgress[]
+  cultural_setting String?
+  translation_style TranslationStyle @default(KEEP_ALL)
+  character_bible   Json?
+  target_language   String @default("EN")
 }
 
 model NovelSource {
@@ -63,6 +67,7 @@ model Chapter {
   published_at         DateTime?
   scraped_at           DateTime?
   reading_progress     ReadingProgress[]
+  context_summary      String?
 
   @@unique([novel_id, chapter_number])
   @@index([novel_id])
@@ -138,4 +143,9 @@ enum JobStatus {
   RUNNING
   DONE
   FAILED
+}
+
+enum TranslationStyle {
+  KEEP_ALL
+  LOCALIZE
 }
