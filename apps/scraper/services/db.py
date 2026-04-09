@@ -30,19 +30,6 @@ def get_chapter(chapter_id: str) -> dict:
         )
 
 
-def get_novel_glossary(novel_id: str) -> list:
-    with get_connection() as connection:
-        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        cursor.execute(
-            """SELECT novel_id, term_original, term_translated, notes FROM "GlossaryTerm"
-            WHERE novel_id=%s""",
-            (novel_id,),
-        )
-        novel_glossary = cursor.fetchall()
-
-        return novel_glossary if novel_glossary else []
-
-
 def save_translation(
     chapter_id: str,
     content_translated: str,
