@@ -9,6 +9,7 @@ A full-stack novel translation platform that focuses on Korean, Japanese and Chi
 - **Auth:** Clerk
 - **API Layer:** tRPC (end-to-end type safety)
 - **Monorepo:** Turborepo + pnpm workspaces
+- **Scraper:** Python, Celery, Redis, Flask, BeautifulSoup
 
 ## Getting Started
 
@@ -31,7 +32,7 @@ In active development!
 - [x] Monorepo setup (Turborepo + pnpm)
 - [x] tRPC API layer
 - [x] Auth UI + JWT verification (Clerk)
-- [ ] Python scraping engine
-- [ ] AI translation pipeline (DeepL + OpenAI)
+- [x] Python scraping engine
+- [x] AI translation pipeline (DeepSeek-V3 + Qwen-MT-Plus)
 - [ ] Full reading UI
 - [ ] AWS deployment + CI/CD
