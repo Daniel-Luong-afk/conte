@@ -19,6 +19,11 @@ celery_app.conf.update(
             "schedule": crontab(minute=0, hour="*/6"),
             "args": [],
         },
+        "translate-chapter": {
+            "task": "scraper.tasks.scrape.translate_chapter",
+            "schedule": crontab(minute="*/10", hour="*"),
+            "args": [],
+        },
     },
     timezone="UTC",
 )
