@@ -37,7 +37,7 @@ export default function RootLayout({
               </a>
               <div className="flex items-center gap-4">
                 <a
-                  href="/"
+                  href="/browse"
                   className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   Browse
