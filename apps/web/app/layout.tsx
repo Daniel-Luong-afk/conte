@@ -27,6 +27,24 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <nav className="border-b px-4 py-3">
+            <div className="max-w-6xl mx-auto flex items-center justify-between">
+              <a
+                href="/"
+                className="font-bold text-lg hover:opacity-70 transition-opacity"
+              >
+                Conte
+              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href="/"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  Browse
+                </a>
+              </div>
+            </div>
+          </nav>
           <Providers>{children}</Providers>
         </body>
       </html>
