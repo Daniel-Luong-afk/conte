@@ -8,6 +8,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./routers";
 import { createContext } from "./lib/context";
 import { optionalAuth } from "./middleware/optionalAuth";
+import novelRestRouter from "./routers/rest";
 
 dotenv.config();
 
@@ -35,6 +36,8 @@ app.use(
     createContext,
   }),
 );
+
+app.use("/api/novels", novelRestRouter);
 
 // Error handler
 app.use(errorHandler);
