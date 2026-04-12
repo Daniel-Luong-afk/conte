@@ -34,5 +34,8 @@ In active development!
 - [x] Auth UI + JWT verification (Clerk)
 - [x] Python scraping engine
 - [x] AI translation pipeline (DeepSeek-V3 + Qwen-MT-Plus)
-- [ ] Full reading UI
-- [ ] AWS deployment + CI/CD
+- [x] Full reading UI (novel listing, detail, chapter reader)
+- [ ] Bookmarks + personal library page
+- [ ] Reading progress auto-save
+- [ ] Email notifications for new chapters (Resend)
+- [ ] Deployment to Vercel
