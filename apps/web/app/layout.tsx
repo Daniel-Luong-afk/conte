@@ -25,9 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className="dark">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <nav className="border-b px-4 py-3">
+          <nav className="border-b px-4 py-3 bg-white dark:bg-gray-900 dark:border-gray-800">
             <div className="max-w-6xl mx-auto flex items-center justify-between">
               <a
                 href="/"
@@ -38,7 +38,7 @@ export default function RootLayout({
               <div className="flex items-center gap-4">
                 <a
                   href="/browse"
-                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   Browse
                 </a>
