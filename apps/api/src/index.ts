@@ -9,6 +9,7 @@ import { appRouter } from "./routers";
 import { createContext } from "./lib/context";
 import { optionalAuth } from "./middleware/optionalAuth";
 import novelRestRouter from "./routers/rest";
+import webhookRouter from "./routes/webhooks";
 
 dotenv.config();
 
@@ -18,6 +19,10 @@ const PORT = process.env.PORT || 3001;
 // Security headers and parsing middleware
 app.use(helmet());
 app.use(cors());
+
+// Need to put before json middleware for svix validation
+app.use("/api/webhooks", webhookRouter);
+
 app.use(express.json());
 
 // Rate limiting
