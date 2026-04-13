@@ -26,19 +26,13 @@ export async function requireAuth(
       return;
     }
 
-    // Lazy user creation (will change to webhook later)
     let user = await prisma.user.findUnique({
       where: { clerk_id: payload.sub },
     });
 
     if (!user) {
-      user = await prisma.user.create({
-        data: {
-          clerk_id: payload.sub,
-          email: (payload.email as string) ?? "",
-          username: (payload.username as string) ?? payload.sub,
-        },
-      });
+      res.status(401).json({ error: "User not found" });
+      return;
     }
 
     req.auth = {

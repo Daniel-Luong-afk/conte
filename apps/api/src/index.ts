@@ -8,8 +8,9 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./routers";
 import { createContext } from "./lib/context";
 import { optionalAuth } from "./middleware/optionalAuth";
-import novelRestRouter from "./routers/rest";
+import novelRestRouter from "./routes/rest";
 import webhookRouter from "./routes/webhooks";
+import bookmarkRouter from "./routes/bookmarks";
 
 dotenv.config();
 
@@ -22,7 +23,6 @@ app.use(cors());
 
 // Need to put before json middleware for svix validation
 app.use("/api/webhooks", webhookRouter);
-
 app.use(express.json());
 
 // Rate limiting
@@ -43,6 +43,7 @@ app.use(
 );
 
 app.use("/api/novels", novelRestRouter);
+app.use("/api/bookmarks", bookmarkRouter);
 
 // Error handler
 app.use(errorHandler);
