@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, publicProcedure } from "../lib/trpc";
+import { router, publicProcedure, protectedProcedure } from "../lib/trpc";
 
 export const novelsRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -35,5 +35,47 @@ export const novelsRouter = router({
       }
 
       return novel;
+    }),
+
+  toggleBookmark: protectedProcedure
+    .input(z.object({ novelId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const existing = await ctx.prisma.bookmark.findUnique({
+        where: {
+          user_id_novel_id: {
+            user_id: ctx.userId!,
+            novel_id: input.novelId,
+          },
+        },
+      });
+
+      if (existing) {
+        await ctx.prisma.bookmark.delete({ where: { id: existing.id } });
+        return { bookmarked: false };
+      }
+
+      await ctx.prisma.bookmark.create({
+        data: {
+          user_id: ctx.userId!,
+          novel_id: input.novelId,
+        },
+      });
+
+      return { bookmarked: true };
+    }),
+
+  isBookmarked: protectedProcedure
+    .input(z.object({ novelId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const bookmark = await ctx.prisma.bookmark.findUnique({
+        where: {
+          user_id_novel_id: {
+            user_id: ctx.userId!,
+            novel_id: input.novelId,
+          },
+        },
+      });
+
+      return { bookmarked: !!bookmark };
     }),
 });
