@@ -78,7 +78,7 @@ export default function ReadingClient({
           <div className="flex items-center gap-1">
             <button
               onClick={() => setFontSize((s) => Math.max(14, s - 2))}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-sm opacity-70 hover:opacity-100"
+              className="min-w-11 min-h-11 flex items-center justify-center text-sm opacity-70 hover:opacity-100"
             >
               A-
             </button>
@@ -87,13 +87,13 @@ export default function ReadingClient({
             </span>
             <button
               onClick={() => setFontSize((s) => Math.min(28, s + 2))}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-sm opacity-70 hover:opacity-100"
+              className="min-w-11 min-h-11 flex items-center justify-center text-sm opacity-70 hover:opacity-100"
             >
               A+
             </button>
             <button
               onClick={() => setIsDark((d) => !d)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center opacity-70 hover:opacity-100"
+              className="min-w-11 min-h-11 flex items-center justify-center opacity-70 hover:opacity-100"
             >
               {isDark ? "☀️" : "🌙"}
             </button>
