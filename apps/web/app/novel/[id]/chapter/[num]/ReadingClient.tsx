@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { trpc } from "../../../../lib/trpc";
 
 interface Chapter {
   id: string;
@@ -22,6 +23,9 @@ export default function ReadingClient({
   const [fontSize, setFontSize] = useState(18);
   const [isDark, setIsDark] = useState(true);
 
+  const progressSaved = useRef(false);
+  const saveProgress = trpc.progress.save.useMutation();
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement) return;
@@ -35,6 +39,28 @@ export default function ReadingClient({
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [chapter.prev, chapter.next, novelId, router]);
+
+  useEffect(() => {
+    progressSaved.current = false;
+
+    const handleScroll = () => {
+      if (progressSaved.current) return;
+
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.documentElement.scrollHeight;
+
+      if (scrolled / total > 0.8) {
+        progressSaved.current = true;
+        saveProgress.mutate({
+          novelId,
+          chapterId: chapter.id,
+        });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [chapter.id, novelId]);
 
   const bg = isDark ? "bg-gray-950 text-gray-100" : "bg-amber-50 text-gray-900";
   const border = isDark ? "border-gray-800" : "border-amber-200";
