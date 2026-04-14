@@ -15,6 +15,7 @@ model User {
   created_at       DateTime          @default(now())
   reading_progress ReadingProgress[]
   bookmarks        Bookmark[]
+  notifications    Notification[]
 }
 
 model Novel {
@@ -32,6 +33,7 @@ model Novel {
   bookmarks         Bookmark[]
   glossary          GlossaryTerm[]
   reading_progress  ReadingProgress[]
+  notifications     Notification[]
   cultural_setting String?
   translation_style TranslationStyle @default(KEEP_ALL)
   character_bible   Json?
@@ -117,6 +119,17 @@ model ScrapeJob {
   scheduled_at DateTime    @default(now())
   completed_at DateTime?
   error_msg    String?
+}
+
+model Notification {
+  id            String      @id @default(cuid())
+  user          User        @relation(fields: [user_id], references: [id])
+  user_id       String
+  novel         Novel       @relation(fields: [novel_id], references: [id])
+  novel_id      String
+  message       String
+  is_read       Boolean     @default(false)
+  created_at    DateTime    @default(now())
 }
 
 enum Language {
