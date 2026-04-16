@@ -35,7 +35,7 @@ In active development!
 - [x] Python scraping engine
 - [x] AI translation pipeline (DeepSeek-V3 + Qwen-MT-Plus)
 - [x] Full reading UI (novel listing, detail, chapter reader)
-- [ ] Bookmarks + personal library page
-- [ ] Reading progress auto-save
+- [x] Bookmarks + personal library page
+- [x] Reading progress auto-save
 - [ ] Email notifications for new chapters (Resend)
 - [ ] Deployment to Vercel
