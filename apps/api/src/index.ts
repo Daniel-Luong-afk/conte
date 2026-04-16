@@ -11,6 +11,8 @@ import { optionalAuth } from "./middleware/optionalAuth";
 import novelRestRouter from "./routes/rest";
 import webhookRouter from "./routes/webhooks";
 import bookmarkRouter from "./routes/bookmarks";
+import notificationRouter from "./routes/notifications";
+import internalRouter from "./routes/internal";
 
 dotenv.config();
 
@@ -44,6 +46,8 @@ app.use(
 
 app.use("/api/novels", novelRestRouter);
 app.use("/api/bookmarks", bookmarkRouter);
+app.use("/api/notifications", notificationRouter);
+app.use("/api/internal", internalRouter);
 
 // Error handler
 app.use(errorHandler);
