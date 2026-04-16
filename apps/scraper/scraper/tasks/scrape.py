@@ -63,7 +63,7 @@ def translate_chapter() -> dict:
     with get_connection() as connection:
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-        cursor.execute("""SELECT c.id, c.novel_id, c.chapter_number, c.content_raw, n.language
+        cursor.execute("""SELECT c.id, c.novel_id, c.chapter_number, c.content_raw, n.language, n.title_original
                        FROM "Chapter" c
                        JOIN "Novel" n ON n.id = c.novel_id
                        WHERE c.translation_status = 'PENDING'
@@ -104,5 +104,15 @@ def translate_chapter() -> dict:
             context_summary=content["summary"],
         )
         update_chapter_status(chapter_id=chapter["id"], status="DONE")
+
+        httpx.post(
+            "http://localhost:3001/api/internal/chapter-done",
+            json={
+                "novel_id": chapter["novel_id"],
+                "chapter_number": chapter["chapter_number"],
+                "novel_title": chapter["title_original"],
+            },
+            headers={"x-internal-secret": "conte-internal-secret-2024"},
+        )
 
         return {"status": "ok", "chapter_id": chapter["id"]}
