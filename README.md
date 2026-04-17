@@ -37,5 +37,5 @@ In active development!
 - [x] Full reading UI (novel listing, detail, chapter reader)
 - [x] Bookmarks + personal library page
 - [x] Reading progress auto-save
-- [ ] Email notifications for new chapters (Resend)
+- [x] Notifications for new chapters
 - [ ] Deployment to Vercel
