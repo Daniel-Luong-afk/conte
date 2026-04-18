@@ -95,7 +95,7 @@ export default function ReadingClient({
               onClick={() => setIsDark((d) => !d)}
               className="min-w-11 min-h-11 flex items-center justify-center opacity-70 hover:opacity-100"
             >
-              {isDark ? "☀️" : "🌙"}
+              {isDark ? "☀️ Light" : "🌙 Dark"}
             </button>
           </div>
         </div>

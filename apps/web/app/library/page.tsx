@@ -6,55 +6,63 @@ import Link from "next/link";
 export default async function LibraryPage() {
   const { getToken } = await auth();
   const token = await getToken();
-
   if (!token) redirect("/sign-in");
 
   const data = await api.bookmarks.list(token);
   const bookmarks = data?.bookmarks ?? [];
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <div className="max-w-4xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
-          My Library
-        </h1>
+    <main className="min-h-screen bg-gray-950 text-white">
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        <h1 className="text-3xl font-bold mb-2">My Library</h1>
+        <p className="text-gray-400 mb-8">
+          {bookmarks.length} bookmarked novel{bookmarks.length !== 1 ? "s" : ""}
+        </p>
+
         {bookmarks.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-gray-400 mb-4">No bookmarks yet</p>
+          <div className="text-center py-32 border border-gray-800 rounded-2xl">
+            <p className="text-4xl mb-4">📚</p>
+            <p className="text-gray-400 mb-2">Your library is empty.</p>
+            <p className="text-gray-500 text-sm mb-6">
+              Bookmark novels to save them here.
+            </p>
             <Link
               href="/browse"
-              className="text-indigo-500 hover:text-indigo-600 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition-colors"
             >
-              Browse novels →
+              Browse Novels →
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {bookmarks.map((novel: any) => (
               <Link
                 key={novel.id}
                 href={`/novel/${novel.id}`}
-                className="group border dark:border-gray-800 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white dark:bg-gray-900"
+                className="group"
               >
-                {novel.cover_url ? (
-                  <img
-                    src={novel.cover_url}
-                    alt={novel.title_english ?? ""}
-                    className="w-full h-48 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">No cover</span>
-                  </div>
-                )}
-                <div className="p-3">
-                  <p className="font-medium text-sm leading-snug line-clamp-2 group-hover:text-indigo-600">
-                    {novel.title_english ?? novel.title_original}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1">
-                    {novel.language} · {novel._count.chapters} chapters
-                  </p>
+                <div className="relative overflow-hidden rounded-xl aspect-[2/3] bg-gray-800 mb-2">
+                  {novel.cover_url ? (
+                    <img
+                      src={novel.cover_url}
+                      alt={novel.title_english ?? ""}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs">
+                      No cover
+                    </div>
+                  )}
+                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm text-white text-xs rounded-md font-medium">
+                    {novel.language}
+                  </span>
                 </div>
+                <p className="font-medium text-sm leading-snug line-clamp-2 text-gray-200 group-hover:text-indigo-400 transition-colors">
+                  {novel.title_english ?? novel.title_original}
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {novel._count.chapters} chapters
+                </p>
               </Link>
             ))}
           </div>
