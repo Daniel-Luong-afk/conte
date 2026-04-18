@@ -2,8 +2,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 import NotificationBell from "./components/NotificationBell";
+import NavAuth from "./components/NavAuth";
+import Link from "next/link";
+import "./globals.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,28 +30,29 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className="dark">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <nav className="border-b px-4 py-3 bg-white dark:bg-gray-900 dark:border-gray-800">
+          <nav className="border-b border-gray-800 bg-gray-950 px-4 py-3 sticky top-0 z-40">
             <div className="max-w-6xl mx-auto flex items-center justify-between">
-              <a
+              <Link
                 href="/"
-                className="font-bold text-lg hover:opacity-70 transition-opacity"
+                className="font-bold text-lg text-white tracking-tight hover:text-indigo-400 transition-colors"
               >
                 Conte
-              </a>
-              <div className="flex items-center gap-4">
-                <a
+              </Link>
+              <div className="flex items-center gap-5">
+                <Link
                   href="/browse"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
                   Browse
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/library"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
                   Library
-                </a>
+                </Link>
                 <NotificationBell />
+                <NavAuth />
               </div>
             </div>
           </nav>
