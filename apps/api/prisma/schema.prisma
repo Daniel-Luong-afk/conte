@@ -12,6 +12,7 @@ model User {
   email            String            @unique
   username         String?           @unique
   clerk_id         String            @unique
+  role             Role              @default(USER)
   created_at       DateTime          @default(now())
   reading_progress ReadingProgress[]
   bookmarks        Bookmark[]
@@ -161,4 +162,9 @@ enum JobStatus {
 enum TranslationStyle {
   KEEP_ALL
   LOCALIZE
+}
+
+enum Role {
+  USER
+  ADMIN
 }
