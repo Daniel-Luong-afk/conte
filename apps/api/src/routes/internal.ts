@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma";
-
+import { redis } from "../lib/redis";
 const internal_secret = process.env.INTERNAL_SECRET;
 
 const router: Router = Router();
@@ -35,6 +35,8 @@ router.post("/chapter-done", async (req, res) => {
   const { count } = await prisma.notification.createMany({
     data: notification,
   });
+
+  await redis.del("novels:all", `novels:${novel_id}`);
 
   res.json({ count: count });
 });
