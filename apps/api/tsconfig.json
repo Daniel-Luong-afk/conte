@@ -1,8 +1,10 @@
 {
   "extends": "@conte/typescript-config/base.json",
+
   "compilerOptions": {
-    "outDir": "./dist"
+    "rootDir": "src",
+    "outDir": "dist"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "files": ["src/types/express.d.ts"]
 }

@@ -37,7 +37,7 @@ router.post(
         create: {
           clerk_id: id,
           email: email ?? "",
-          username: username ?? "",
+          username: username ?? null,
         },
       });
     }

@@ -38,6 +38,7 @@ export async function requireAuth(
     req.auth = {
       userId: user.id,
       email: user.email,
+      role: user.role,
     };
 
     next();
