@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, protectedProcedure } from "../lib/trpc";
+import { router, protectedProcedure, adminProcedure } from "../lib/trpc";
 
 export const scraperRouter = router({
-  scrapNovel: protectedProcedure
+  scrapNovel: adminProcedure
     .input(z.object({ novel_id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       let nSource = await ctx.prisma.novelSource.findFirst({
