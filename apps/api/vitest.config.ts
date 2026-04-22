@@ -5,9 +5,11 @@ export default defineConfig({
     globals: true,
     environment: "node",
     include: ["src/**/*.test.ts"],
+    setupFiles: ["./src/tests/setup.ts"],
+    testTimeout: 15000,
     coverage: {
       reporter: ["text", "html"],
-      include: ["src/routers/**"],
+      include: ["src/**"],
     },
   },
 });
