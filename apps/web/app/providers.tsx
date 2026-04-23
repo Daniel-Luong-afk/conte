@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "./lib/trpc";
 import { useAuth } from "@clerk/nextjs";
+import { usePushNotifications } from "./components/usePushNotifications";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  usePushNotifications();
   const { getToken } = useAuth();
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>

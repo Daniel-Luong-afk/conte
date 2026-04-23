@@ -21,7 +21,7 @@ export default function NavAuth() {
             Admin
           </Link>
         )}
-        <UserButton afterSignOutUrl="/" />
+        <UserButton />
       </div>
     );
   }

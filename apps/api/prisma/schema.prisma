@@ -17,6 +17,7 @@ model User {
   reading_progress ReadingProgress[]
   bookmarks        Bookmark[]
   notifications    Notification[]
+  push_subscriptions PushSubscription[]
 }
 
 model Novel {
@@ -131,6 +132,16 @@ model Notification {
   message       String
   is_read       Boolean     @default(false)
   created_at    DateTime    @default(now())
+}
+
+model PushSubscription {
+  id String @id @default(cuid())
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+  endpoint String @unique
+  p256dh String
+  auth String
+  created_at DateTime @default(now())
 }
 
 enum Language {
