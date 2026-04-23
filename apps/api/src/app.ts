@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
@@ -13,10 +13,11 @@ import webhookRouter from "./routes/webhooks";
 import bookmarkRouter from "./routes/bookmarks";
 import notificationRouter from "./routes/notifications";
 import internalRouter from "./routes/internal";
+import pushRouter from "./routes/push";
 
 dotenv.config();
 
-export const app = express();
+export const app: Express = express();
 
 // Security headers and parsing middleware
 app.use(helmet());
@@ -47,6 +48,6 @@ app.use("/api/novels", novelRestRouter);
 app.use("/api/bookmarks", bookmarkRouter);
 app.use("/api/notifications", notificationRouter);
 app.use("/api/internal", internalRouter);
-
+app.use("/api/push", pushRouter);
 // Error handler
 app.use(errorHandler);
