@@ -6,7 +6,8 @@ const router: Router = Router();
 
 router.post("/subscribe", requireAuth, async (req, res) => {
   const { userId } = req.auth!;
-  const { endpoint, p256dh, auth } = req.body;
+  const { endpoint, keys } = req.body;
+  const { p256dh, auth } = keys;
 
   await prisma.pushSubscription.upsert({
     where: { endpoint },

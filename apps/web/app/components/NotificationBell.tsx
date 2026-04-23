@@ -9,9 +9,21 @@ type Notification = {
   created_at: Date;
 };
 
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; i++) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 export default function NotificationBell() {
   const [open, setOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [isPushEnabled, setIsPushEnabled] = useState<boolean>(false);
   const { getToken, isSignedIn } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +53,43 @@ export default function NotificationBell() {
     return () => clearInterval(id);
   }, [isSignedIn]);
 
-  // Close dropdown when clicking outside
+  useEffect(() => {
+    async function checkPushStatus() {
+      if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+      const registration = await navigator.serviceWorker.register("/sw.js");
+      const existing = await registration.pushManager.getSubscription();
+      setIsPushEnabled(!!existing);
+    }
+    if (isSignedIn) checkPushStatus();
+  }, [isSignedIn]);
+
+  async function enablePush() {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") return;
+
+    const registration = await navigator.serviceWorker.register("/sw.js");
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(
+        process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+      ),
+    });
+
+    const token = await getToken();
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/push/subscribe`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(subscription),
+    });
+
+    setIsPushEnabled(true);
+  }
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -73,7 +121,6 @@ export default function NotificationBell() {
           </span>
         )}
       </button>
-
       {open && (
         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
           <div className="p-3 border-b border-gray-200 dark:border-gray-700">
@@ -81,6 +128,16 @@ export default function NotificationBell() {
               Notifications
             </p>
           </div>
+          {!isPushEnabled && (
+            <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+              <button
+                onClick={enablePush}
+                className="w-full text-xs bg-indigo-600 hover:bg-indigo-700 text-white rounded px-3 py-2 transition-colors"
+              >
+                🔔 Enable push notifications
+              </button>
+            </div>
+          )}
           {notifications.length === 0 ? (
             <p className="p-4 text-sm text-gray-500 dark:text-gray-400">
               You're all caught up!
