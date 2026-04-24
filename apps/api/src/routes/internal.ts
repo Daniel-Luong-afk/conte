@@ -2,7 +2,6 @@ import { Router } from "express";
 import { prisma } from "../lib/prisma";
 import { redis } from "../lib/redis";
 import webpush from "web-push";
-import { title } from "process";
 
 webpush.setVapidDetails(
   process.env.VAPID_SUBJECT!,
@@ -67,7 +66,7 @@ router.post("/chapter-done", async (req, res) => {
       ),
     );
   }
-  Promise.allSettled(push_promises);
+  await Promise.allSettled(push_promises);
 
   await redis.del("novels:all", `novels:${novel_id}`);
 
