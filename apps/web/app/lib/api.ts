@@ -23,21 +23,21 @@ async function apiFetch<T>(
 
 export const api = {
   novels: {
-    list: () => apiFetch<any[]>(`/api/novels`, { next: { revalidate: 300 } }),
+    list: () => apiFetch<any[]>(`/api/novels`, { cache: "no-store" }),
     byId: (id: string) =>
-      apiFetch<any>(`/api/novels/${id}`, { next: { revalidate: 3600 } }),
+      apiFetch<any>(`/api/novels/${id}`, { cache: "no-store" }),
   },
   chapters: {
     byNumber: (novelId: string, chapterNumber: number) =>
       apiFetch<any>(`/api/novels/${novelId}/chapters/${chapterNumber}`, {
-        next: { revalidate: 86400 },
+        cache: "no-store",
       }),
   },
   bookmarks: {
     list: (token: string) =>
       apiFetch<{ bookmarks: any[] }>(
         `/api/bookmarks`,
-        { next: { revalidate: 0 } },
+        { cache: "no-store" },
         token,
       ),
   },
