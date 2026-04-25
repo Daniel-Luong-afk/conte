@@ -33,7 +33,7 @@ router.post("/chapter-done", async (req, res) => {
     },
   });
 
-  const notification = bookmarks.map((b) => ({
+  const notification = bookmarks.map((b: any) => ({
     user_id: b.user_id,
     novel_id: b.novel_id,
     message: `${novel_title} has a new chapter: ${chapter_number}`,
@@ -46,7 +46,7 @@ router.post("/chapter-done", async (req, res) => {
   const push_subscription = await prisma.pushSubscription.findMany({
     where: {
       user_id: {
-        in: bookmarks.map((bookmark) => bookmark.user_id),
+        in: bookmarks.map((bookmark: any) => bookmark.user_id),
       },
     },
   });

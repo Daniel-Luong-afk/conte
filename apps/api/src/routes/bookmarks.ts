@@ -17,7 +17,7 @@ router.get("/", requireAuth, async (req, res) => {
     orderBy: { created_at: "desc" },
   });
 
-  res.json({ bookmarks: bookmarks.map((b) => b.novel) });
+  res.json({ bookmarks: bookmarks.map((b: any) => b.novel) });
 });
 
 export default router;
