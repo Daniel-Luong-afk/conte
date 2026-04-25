@@ -13,9 +13,15 @@ qwen_client = OpenAI(
     base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
 )
 
+# CLIENTS = {
+#     "JP": {"client": qwen_client, "model": "qwen-mt-plus"},
+#     "KR": {"client": qwen_client, "model": "qwen-mt-plus"},
+#     "CN": {"client": deepseek_client, "model": "deepseek-chat"},
+# }
+
 CLIENTS = {
-    "JP": {"client": qwen_client, "model": "qwen-mt-plus"},
-    "KR": {"client": qwen_client, "model": "qwen-mt-plus"},
+    "JP": {"client": deepseek_client, "model": "deepseek-chat"},
+    "KR": {"client": deepseek_client, "model": "deepseek-chat"},
     "CN": {"client": deepseek_client, "model": "deepseek-chat"},
 }
 

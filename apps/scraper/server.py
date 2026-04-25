@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Response
-from scraper.tasks.scrape import scrape_chapter
+from scraper.tasks.scrape import discover_chapters
 
 app = Flask(__name__)
 
@@ -8,11 +8,10 @@ app = Flask(__name__)
 def trigger_scrape() -> Response:
     data = request.json
 
-    response = scrape_chapter.delay(
-        data["url"],
-        data["novel_id"],
-        data["chapter_number"],
+    response = discover_chapters.delay(
         data["source_id"],
+        data["source_url"],
+        data["novel_id"],
         data["site_name"],
     )
 

@@ -23,9 +23,8 @@ export const scraperRouter = router({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          url: nSource.source_url,
+          source_url: nSource.source_url,
           novel_id: nSource.novel_id,
-          chapter_number: 1,
           source_id: nSource.id,
           site_name: nSource.site_name,
         }),
