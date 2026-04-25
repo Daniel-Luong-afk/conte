@@ -15,15 +15,11 @@ export default function BrowsePage() {
     undefined,
   );
 
-  const { data, isLoading } = trpc.novels.getAll.useQuery(undefined, {
-    initialData: [],
-  });
+  const { data, isLoading } = trpc.novels.getAll.useQuery();
 
-  const novels = data
-    ? language
-      ? data.filter((n: any) => n.language === language)
-      : data
-    : [];
+  const novels = ((data as any[]) ?? []).filter((n: any) =>
+    language ? n.language === language : true,
+  );
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
