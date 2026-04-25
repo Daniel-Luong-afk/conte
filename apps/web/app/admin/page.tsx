@@ -217,7 +217,7 @@ export default function AdminPage() {
       {/* ── Novel List ── */}
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">All Novels</h2>
-        {novels?.map((novel: any) => (
+        {(novels as any[]).map((novel: any) => (
           <div
             key={novel.id}
             className="border border-gray-700 rounded-lg p-4 space-y-4"
