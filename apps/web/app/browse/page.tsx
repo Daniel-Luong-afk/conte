@@ -15,7 +15,9 @@ export default function BrowsePage() {
     undefined,
   );
 
-  const { data, isLoading } = trpc.novels.getAll.useQuery();
+  const { data, isLoading } = trpc.novels.getAll.useQuery(undefined, {
+    initialData: [],
+  });
 
   const novels = data
     ? language
