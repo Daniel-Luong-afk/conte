@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pnpm install && pnpm --filter @conte/api build"
+  },
+  "deploy": {
+    "startCommand": "pnpm --filter @conte/api exec prisma migrate deploy && node apps/api/dist/index.js",
+    "healthcheckPath": "/health",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
