@@ -53,7 +53,7 @@ export default function AdminPage() {
   const router = useRouter();
   const { data: me, isLoading: meLoading } = trpc.users.getMe.useQuery();
   const { data: novels, isLoading: novelsLoading } =
-    trpc.novels.getAll.useQuery();
+    trpc.novels.getAll.useQuery(undefined, { initialData: [] });
 
   const utils = trpc.useUtils();
 
