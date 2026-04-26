@@ -8,6 +8,7 @@ on:
 
 env:
   TEST_DATABASE_URL: postgresql://noveluser:novelpass@localhost:5432/noveldb_test
+  DATABASE_URL: postgresql://noveluser:novelpass@localhost:5432/noveldb_test
 
 jobs:
   test:
