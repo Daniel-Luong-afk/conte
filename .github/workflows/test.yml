@@ -15,7 +15,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres: 16
+        image: postgres:16
         env:
           POSTGRES_USER: noveluser
           POSTGRES_PASSWORD: novelpass
@@ -27,3 +27,24 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate Prisma client
+        run: pnpm --filter @conte/api exec prisma generate
+
+      - name: Run migrations
+        run: pnpm --filter @conte/api exec prisma migrate deploy
+
+      - name: Run tests
+        run: pnpm --filter @conte/api test
