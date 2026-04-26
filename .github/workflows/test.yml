@@ -9,6 +9,10 @@ on:
 env:
   TEST_DATABASE_URL: postgresql://noveluser:novelpass@localhost:5432/noveldb_test
   DATABASE_URL: postgresql://noveluser:novelpass@localhost:5432/noveldb_test
+  REDIS_URL: redis://localhost:6379
+  VAPID_SUBJECT: mailto:test@test.com
+  VAPID_PUBLIC_KEY: BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBLViMsRngJZwHRa5WqM
+  VAPID_PRIVATE_KEY: test-private-key-placeholder
 
 jobs:
   test:
@@ -25,6 +29,15 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
